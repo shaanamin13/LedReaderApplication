@@ -5,20 +5,14 @@ import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
-import android.os.Environment;
-import android.os.StatFs;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Environment;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.File;
@@ -28,43 +22,102 @@ import java.util.Date;
 
 
 public class CameraCommActivity extends Activity implements SurfaceHolder.Callback {
-    MediaRecorder recorder;
-    SurfaceHolder holder;
+    private MediaRecorder recorder;
+    private SurfaceHolder surfaceHolder;
+    private CamcorderProfile camcorderProfile;
+    private Camera camera;
     boolean recording = false;
+    boolean usecamera = true;
+    boolean previewRunning = false;
+    SurfaceView surfaceView;
+    Button btnStart, btnStop;
+    File root;
+    File file;
+    Boolean isSDPresent;
+    SimpleDateFormat simpleDateFormat;
+    String timeStamp;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        recorder = new MediaRecorder();
-        initRecorder();
+
         setContentView(R.layout.activity_camera_comm);
-
-        SurfaceView cameraView = (SurfaceView) findViewById(R.id.surfaceView);
-        holder = cameraView.getHolder();
-        holder.addCallback(this);
-        holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-
-        cameraView.setClickable(true);
+        initComs();
+        actionListener();
     }
 
-    private void initRecorder() {
-        recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
-        recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
+    private void initComs() {
+        simpleDateFormat = new SimpleDateFormat("ddMMyyyyhhmmss");
+        timeStamp = simpleDateFormat.format(new Date());
+        camcorderProfile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
+        surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
+        surfaceHolder = surfaceView.getHolder();
+        surfaceHolder.addCallback(this);
+        btnStop = (Button) findViewById(R.id.btn_stop);
+        surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-        CamcorderProfile cpHigh = CamcorderProfile
-                .get(CamcorderProfile.QUALITY_HIGH);
-        recorder.setProfile(cpHigh);
-        recorder.setOutputFile("/sdcard/videocapture_example.mp4");
-        recorder.setMaxDuration(50000); // 50 seconds
-        recorder.setMaxFileSize(5000000); // Approximately 5 megabytes
+
+    }
+
+
+
+
+    private void actionListener() {
+        btnStop.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if (!recording) {
+                    prepareRecorder();
+                    recorder.start();
+                    Toast.makeText(getApplicationContext(), "Recorder Stopped", Toast.LENGTH_SHORT).show();
+                    if (usecamera) {
+                        try {
+                            camera.reconnect();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    // recorder.release();
+                    recording = false;
+                    // Let's prepareRecorder so we can record again
+                    prepareRecorder();
+                }
+
+            }
+        });
     }
 
     private void prepareRecorder() {
-        recorder.setPreviewDisplay(holder.getSurface());
+        recorder = new MediaRecorder();
+        recorder.setPreviewDisplay(surfaceHolder.getSurface());
+        if (usecamera) {
+            camera.lock();
+            camera.unlock();
+            recorder.setCamera(camera);
+        }
+        recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
+        recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
+
+        recorder.setProfile(camcorderProfile);
+
+        if (camcorderProfile.fileFormat == MediaRecorder.OutputFormat.MPEG_4) {
+            recorder.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath()
+                    + "/myvideo.mp4");
+        } else if (camcorderProfile.fileFormat == MediaRecorder.OutputFormat.MPEG_4) {
+            recorder.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath()
+                    + "/myvideo.mp4");
+        } else {
+            recorder.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath()
+                    + "/myvideo.mp4");
+        }
 
         try {
             recorder.prepare();
@@ -77,26 +130,54 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
         }
     }
 
-    public void onClick(View v) {
-        if (recording) {
-            recorder.stop();
-            recording = false;
-
-            // Let's initRecorder so we can record again
-            initRecorder();
-            prepareRecorder();
-        } else {
-            recording = true;
-            recorder.start();
-        }
-    }
-
     public void surfaceCreated(SurfaceHolder holder) {
-        prepareRecorder();
+        System.out.println("onsurfacecreated");
+
+        if (usecamera) {
+            camera = Camera.open();
+
+            try {
+                camera.setPreviewDisplay(holder);
+                camera.startPreview();
+                previewRunning = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
                                int height) {
+//        System.out.println("onsurface changed");
+//
+//        if (!recording && usecamera) {
+//            if (previewRunning) {
+//                camera.stopPreview();
+//            }
+//
+//            try {
+//                Camera.Parameters p = camera.getParameters();
+//
+//                p.setPreviewSize(camcorderProfile.videoFrameWidth,
+//                        camcorderProfile.videoFrameHeight);
+//                p.setPreviewFrameRate(camcorderProfile.videoFrameRate);
+//
+//                camera.setParameters(p);
+//
+//                camera.setPreviewDisplay(holder);
+//                camera.startPreview();
+//                previewRunning = true;
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            prepareRecorder();
+//            if (!recording) {
+//                recording = true;
+////                recorder.start();
+//            }
+//        }
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -104,7 +185,13 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
             recorder.stop();
             recording = false;
         }
-        recorder.release();
+        camera.release();
+        if (usecamera) {
+            previewRunning = false;
+            // camera.lock();
+
+            camera.release();
+        }
         finish();
     }
 }
