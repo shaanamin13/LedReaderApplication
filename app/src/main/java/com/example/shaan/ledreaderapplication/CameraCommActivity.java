@@ -99,7 +99,7 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
         recorder = new MediaRecorder();
         recorder.setPreviewDisplay(surfaceHolder.getSurface());
         if (usecamera) {
-            camera.lock();
+
             camera.unlock();
             recorder.setCamera(camera);
         }
@@ -135,6 +135,7 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
 
         if (usecamera) {
             camera = Camera.open();
+            camera.setDisplayOrientation(90);
 
             try {
                 camera.setPreviewDisplay(holder);

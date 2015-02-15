@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -28,7 +29,7 @@
         <activity
             android:name=".logActivity"
             android:label="@string/title_activity_log"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity" > <!-- 431 -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.shaan.ledreaderapplication.MainActivity" />
@@ -48,6 +49,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.shaan.ledreaderapplication.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ResultsActivity"
+            android:label="@string/title_activity_results"
+            android:parentActivityName=".CameraCommActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.shaan.ledreaderapplication.CameraCommActivity" />
         </activity>
     </application>
 

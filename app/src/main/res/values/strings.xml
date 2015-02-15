@@ -17,5 +17,6 @@
     <string name="title_activity_log">Circuit Breaker Logs</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_help">Help</string>
+    <string name="title_activity_results">ResultsActivity</string>
 
 </resources>
