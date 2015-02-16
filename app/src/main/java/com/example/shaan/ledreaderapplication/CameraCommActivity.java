@@ -1,6 +1,7 @@
 package com.example.shaan.ledreaderapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
@@ -77,18 +78,27 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
                 if (!recording) {
                     prepareRecorder();
                     recorder.start();
-                    Toast.makeText(getApplicationContext(), "Recorder Stopped", Toast.LENGTH_SHORT).show();
-                    if (usecamera) {
-                        try {
-                            camera.reconnect();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    // recorder.release();
-                    recording = false;
-                    // Let's prepareRecorder so we can record again
-                    prepareRecorder();
+                    Toast.makeText(getApplicationContext(), "Recording Started", Toast.LENGTH_SHORT).show();
+                    recording = true;
+//                    if (usecamera) {
+//                        try {
+//                            camera.reconnect();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    // recorder.release();
+//                    recording = false;
+//                    // Let's prepareRecorder so we can record again
+//                    prepareRecorder();
+                }
+                else{
+                    recording=false;
+                    recorder.stop();
+                    recorder.reset();
+                    recorder.release();
+                    Toast.makeText(getApplicationContext(), "Recording Stopped", Toast.LENGTH_SHORT).show();
+                    viewResults();
                 }
 
             }
@@ -97,6 +107,8 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
 
     private void prepareRecorder() {
         recorder = new MediaRecorder();
+
+        recorder.setOrientationHint(90);
         recorder.setPreviewDisplay(surfaceHolder.getSurface());
         if (usecamera) {
 
@@ -107,6 +119,7 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
         recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
 
         recorder.setProfile(camcorderProfile);
+
 
         if (camcorderProfile.fileFormat == MediaRecorder.OutputFormat.MPEG_4) {
             recorder.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath()
@@ -121,6 +134,7 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
 
         try {
             recorder.prepare();
+
         } catch (IllegalStateException e) {
             e.printStackTrace();
             finish();
@@ -128,6 +142,7 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
             e.printStackTrace();
             finish();
         }
+
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
@@ -136,6 +151,7 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
         if (usecamera) {
             camera = Camera.open();
             camera.setDisplayOrientation(90);
+
 
             try {
                 camera.setPreviewDisplay(holder);
@@ -194,5 +210,11 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
             camera.release();
         }
         finish();
+    }
+
+
+    public void viewResults(){
+        Intent intent = new Intent(this, ResultsActivity.class);
+        startActivity(intent);
     }
 }
