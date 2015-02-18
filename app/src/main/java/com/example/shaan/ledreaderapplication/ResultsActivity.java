@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.Bitmap;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
 
 import org.bytedeco.javacv.FFmpegFrameGrabber;
-import org.bytedeco.javacv.FrameGrabber.Exception;
-import org.bytedeco.javacpp.opencv_core;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,14 +25,18 @@ public class ResultsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
+        Button button = (Button) findViewById(R.id.gen_results_btn);
 
-        try {
-            analyzeFrames();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                try {
+                    analyzeFrames();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
 
@@ -59,16 +66,32 @@ public class ResultsActivity extends ActionBarActivity {
 
     public void analyzeFrames() throws Exception,IOException{
 
+        try {
+            FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(Environment.getExternalStorageDirectory().getAbsolutePath()
+                    + "/LEDAnalysis.mp4");
+            grabber.setFormat("mp4");
+            grabber.start();
+
+            grabber.stop();
+            grabber.release();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    /*
        int counter = 0;
        int frameLength = 0;
 
+
             FFmpegFrameGrabber g = new FFmpegFrameGrabber(Environment.getExternalStorageDirectory().getAbsolutePath()
                     + "/LEDAnalysis.mp4");
+        opencv_core.IplImage imgs;
+        Bitmap bitmap = null;
+        FileOutputStream out = null;
+
             g.start();
 
-            opencv_core.IplImage imgs;
-            Bitmap bitmap = null;
-            FileOutputStream out = null;
+
             frameLength = g.getLengthInFrames();
 
             for (int i = 0; i<frameLength ; i++){
@@ -76,14 +99,17 @@ public class ResultsActivity extends ActionBarActivity {
                 counter++;
                 imgs = g.grab();
                 bitmap.copyPixelsToBuffer(imgs.getByteBuffer());
-                out = new FileOutputStream("i-"+ counter + ".png");
+                out = new FileOutputStream(Environment.getExternalStorageDirectory().getAbsolutePath()
+                        + "/i-"+ counter + ".png");
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                 out.close();
             }
 
             g.stop();
+            g.release();
 
-		/*	Manipulate the Images
+
+			Manipulate the Images
 		Bitmap img = MediaStore.Images.Media.getBitmap();
 		int w = img.getWidth()/2;
 		int h = img.getHeight()/2;
