@@ -120,16 +120,18 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
 
         recorder.setProfile(camcorderProfile);
 
-
+        File ledDirectory = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                + "/led/");
+        ledDirectory.mkdirs();
         if (camcorderProfile.fileFormat == MediaRecorder.OutputFormat.MPEG_4) {
             recorder.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath()
-                    + "/LEDAnalysis.mp4");
+                    + "/led/LEDAnalysis.mp4");
         } else if (camcorderProfile.fileFormat == MediaRecorder.OutputFormat.MPEG_4) {
             recorder.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath()
-                    + "/LEDAnalysis.mp4");
+                    + "/led/LEDAnalysis.mp4");
         } else {
             recorder.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath()
-                    + "/LEDAnalysis.mp4");
+                    + "/led/LEDAnalysis.mp4");
         }
 
         try {

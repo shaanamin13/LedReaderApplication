@@ -1,22 +1,21 @@
 package com.example.shaan.ledreaderapplication;
 
+import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 
+import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 
 public class ResultsActivity extends ActionBarActivity {
 
@@ -25,12 +24,21 @@ public class ResultsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
+        final TextView testBin = (TextView) findViewById(R.id.test_bin);
+        final TextView testStr = (TextView) findViewById(R.id.test_str);
+        final TextView loadingTxt = (TextView) findViewById(R.id.loading_txt);
+        loadingTxt.setVisibility(View.GONE);
         Button button = (Button) findViewById(R.id.gen_results_btn);
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                loadingTxt.setVisibility(View.VISIBLE);
                 try {
+
                     analyzeFrames();
+                    loadingTxt.setVisibility(View.GONE);
+                    testBin.setText("010010010111010000100000011010010111001100100000011001100110100101101110011010010111001101101000011001010110010000100001");
+                    testStr.setText("It is finished!");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -65,12 +73,38 @@ public class ResultsActivity extends ActionBarActivity {
 
 
     public void analyzeFrames() throws Exception,IOException{
+        int counter = 0;
+        int frameLength = 0;
+        opencv_core.IplImage imgs;
+        opencv_core.IplImage _imgs;
+        Bitmap bitmap = null;
+        FileOutputStream out = null;
 
         try {
             FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(Environment.getExternalStorageDirectory().getAbsolutePath()
-                    + "/LEDAnalysis.mp4");
+                    + "/led/LEDAnalysis.mp4");
             grabber.setFormat("mp4");
             grabber.start();
+
+            frameLength = grabber.getLengthInFrames();
+
+            for (int i = 0; i<frameLength ; i++){
+                //ImageIO.write(g.grab().getBufferedImage(), "png", new File("video-frame-" + System.currentTimeMillis() + ".png"));
+                imgs = grabber.grab();
+                int height = imgs.height();
+                int width = imgs.width();
+                _imgs = opencv_core.IplImage.create(width, height, opencv_core.IPL_DEPTH_8U , 4);
+
+                bitmap = Bitmap.createBitmap(width, height,
+                        Bitmap.Config.ARGB_8888);
+                bitmap.copyPixelsFromBuffer(_imgs.getByteBuffer());
+                out = new FileOutputStream(Environment.getExternalStorageDirectory().getAbsolutePath()
+                        + "/led/i-"+ counter + ".png");
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                out.close();
+                counter++;
+            }
+
 
             grabber.stop();
             grabber.release();
@@ -78,6 +112,7 @@ public class ResultsActivity extends ActionBarActivity {
         catch (Exception e) {
             e.printStackTrace();
         }
+
     /*
        int counter = 0;
        int frameLength = 0;

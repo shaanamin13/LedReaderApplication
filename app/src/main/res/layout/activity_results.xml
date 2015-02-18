@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.shaan.ledreaderapplication.ResultsActivity">
+    tools:context="com.example.shaan.ledreaderapplication.ResultsActivity"
+    >
 
 
     <LinearLayout
@@ -17,7 +18,7 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:background="@color/icons"
             android:orientation="vertical"
             android:id="@+id/linearLayout">
@@ -32,51 +33,56 @@
 
             <TableLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="fill_parent">
 
                 <TableRow
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="20dip">
 
                     <TextView
                         android:layout_weight="1"
                         android:text="Binary Result"
-                        android:textSize="22dp"
+                        android:textSize="22sp"
 
 
-                        />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:layout_weight="1"
                         android:text="String"
-                        android:textSize="22dp"
+                        android:textSize="22sp"
 
-                        />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
 
                 </TableRow>
 
                 <TableRow
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="20dip">
 
                     <TextView
+                        android:id="@+id/test_bin"
                         android:layout_weight="1"
-
-                        android:textSize="19dp"
+                        android:textSize="19sp"
                         android:textColor="@color/primary_dark"
-
-
-                        />
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content" />
 
                     <TextView
+                        android:id="@+id/test_str"
                         android:layout_weight="1"
                         android:textColor="@color/primary_dark"
-                        android:textSize="19dp"
+                        android:textSize="19sp"
 
-                        />
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="false" />
 
 
                 </TableRow>
@@ -91,7 +97,19 @@
             android:background="@color/primary_dark"
             android:id="@+id/gen_results_btn"
             android:layout_gravity="center_horizontal"
-            android:clickable="true" />
+            android:clickable="true"
+            android:layout_marginTop="22dp" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Generating Results...Please Wait"
+            android:id="@+id/loading_txt"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="22dp" />
     </LinearLayout>
 
 </RelativeLayout>
