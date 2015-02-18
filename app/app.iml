@@ -124,6 +124,7 @@
     <orderEntry type="library" exported="" name="flycapture" level="project" />
     <orderEntry type="library" exported="" name="artoolkitplus-android-x86" level="project" />
     <orderEntry type="library" exported="" name="flycapture-windows-x86" level="project" />
+    <orderEntry type="library" exported="" name="opencv-android-x86 (1)" level="project" />
     <orderEntry type="library" exported="" name="videoinput-windows-x86" level="project" />
     <orderEntry type="library" exported="" name="artoolkitplus-windows-x86_64" level="project" />
     <orderEntry type="library" exported="" name="flycapture-linux-x86_64" level="project" />
