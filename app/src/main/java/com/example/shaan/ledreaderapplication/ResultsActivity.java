@@ -12,10 +12,13 @@ import android.widget.TextView;
 
 
 import org.bytedeco.javacpp.opencv_core;
+import org.bytedeco.javacpp.opencv_imgproc;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static org.bytedeco.javacpp.opencv_imgproc.cvCvtColor;
 
 public class ResultsActivity extends ActionBarActivity {
 
@@ -97,6 +100,7 @@ public class ResultsActivity extends ActionBarActivity {
 
                 bitmap = Bitmap.createBitmap(width, height,
                         Bitmap.Config.ARGB_8888);
+                cvCvtColor(imgs,_imgs, opencv_imgproc.CV_BGR2RGBA);
                 bitmap.copyPixelsFromBuffer(_imgs.getByteBuffer());
                 out = new FileOutputStream(Environment.getExternalStorageDirectory().getAbsolutePath()
                         + "/led/i-"+ counter + ".png");
