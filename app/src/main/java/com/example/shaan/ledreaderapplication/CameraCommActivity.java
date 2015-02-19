@@ -168,35 +168,7 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
 
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
                                int height) {
-//        System.out.println("onsurface changed");
-//
-//        if (!recording && usecamera) {
-//            if (previewRunning) {
-//                camera.stopPreview();
-//            }
-//
-//            try {
-//                Camera.Parameters p = camera.getParameters();
-//
-//                p.setPreviewSize(camcorderProfile.videoFrameWidth,
-//                        camcorderProfile.videoFrameHeight);
-//                p.setPreviewFrameRate(camcorderProfile.videoFrameRate);
-//
-//                camera.setParameters(p);
-//
-//                camera.setPreviewDisplay(holder);
-//                camera.startPreview();
-//                previewRunning = true;
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            prepareRecorder();
-//            if (!recording) {
-//                recording = true;
-////                recorder.start();
-//            }
-//        }
+
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {

@@ -1,6 +1,7 @@
 package com.example.shaan.ledreaderapplication;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
@@ -29,22 +30,31 @@ public class ResultsActivity extends ActionBarActivity {
 
         final TextView testBin = (TextView) findViewById(R.id.test_bin);
         final TextView testStr = (TextView) findViewById(R.id.test_str);
-        final TextView loadingTxt = (TextView) findViewById(R.id.loading_txt);
-        loadingTxt.setVisibility(View.GONE);
-        Button button = (Button) findViewById(R.id.gen_results_btn);
 
-        button.setOnClickListener(new View.OnClickListener() {
+
+        Button button1 = (Button) findViewById(R.id.gen_imgs_btn);
+        Button button2 = (Button) findViewById(R.id.gen_results_btn);
+
+        button1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                loadingTxt.setVisibility(View.VISIBLE);
+
                 try {
 
                     analyzeFrames();
-                    loadingTxt.setVisibility(View.GONE);
-                    testBin.setText("010010010111010000100000011010010111001100100000011001100110100101101110011010010111001101101000011001010110010000100001");
-                    testStr.setText("It is finished!");
+
+                    testStr.setText("TBD");
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+
             }
         });
 
@@ -74,8 +84,7 @@ public class ResultsActivity extends ActionBarActivity {
     }
 
 
-
-    public void analyzeFrames() throws Exception,IOException{
+    public void analyzeFrames() throws Exception, IOException {
         int counter = 0;
         int frameLength = 0;
         opencv_core.IplImage imgs;
@@ -91,19 +100,19 @@ public class ResultsActivity extends ActionBarActivity {
 
             frameLength = grabber.getLengthInFrames();
 
-            for (int i = 0; i<frameLength ; i++){
+            for (int i = 0; i < frameLength; i++) {
                 //ImageIO.write(g.grab().getBufferedImage(), "png", new File("video-frame-" + System.currentTimeMillis() + ".png"));
                 imgs = grabber.grab();
                 int height = imgs.height();
                 int width = imgs.width();
-                _imgs = opencv_core.IplImage.create(width, height, opencv_core.IPL_DEPTH_8U , 4);
+                _imgs = opencv_core.IplImage.create(width, height, opencv_core.IPL_DEPTH_8U, 4);
 
                 bitmap = Bitmap.createBitmap(width, height,
                         Bitmap.Config.ARGB_8888);
-                cvCvtColor(imgs,_imgs, opencv_imgproc.CV_BGR2RGBA);
+                cvCvtColor(imgs, _imgs, opencv_imgproc.CV_BGR2RGBA);
                 bitmap.copyPixelsFromBuffer(_imgs.getByteBuffer());
                 out = new FileOutputStream(Environment.getExternalStorageDirectory().getAbsolutePath()
-                        + "/led/i-"+ counter + ".png");
+                        + "/led/i-" + counter + ".png");
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                 out.close();
                 counter++;
@@ -112,55 +121,57 @@ public class ResultsActivity extends ActionBarActivity {
 
             grabber.stop();
             grabber.release();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        analyzePNG(frameLength);
 
-    /*
-       int counter = 0;
-       int frameLength = 0;
-
-
-            FFmpegFrameGrabber g = new FFmpegFrameGrabber(Environment.getExternalStorageDirectory().getAbsolutePath()
-                    + "/LEDAnalysis.mp4");
-        opencv_core.IplImage imgs;
-        Bitmap bitmap = null;
-        FileOutputStream out = null;
-
-            g.start();
-
-
-            frameLength = g.getLengthInFrames();
-
-            for (int i = 0; i<frameLength ; i++){
-                //ImageIO.write(g.grab().getBufferedImage(), "png", new File("video-frame-" + System.currentTimeMillis() + ".png"));
-                counter++;
-                imgs = g.grab();
-                bitmap.copyPixelsToBuffer(imgs.getByteBuffer());
-                out = new FileOutputStream(Environment.getExternalStorageDirectory().getAbsolutePath()
-                        + "/i-"+ counter + ".png");
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                out.close();
-            }
-
-            g.stop();
-            g.release();
-
-
-			Manipulate the Images
-		Bitmap img = MediaStore.Images.Media.getBitmap();
-		int w = img.getWidth()/2;
-		int h = img.getHeight()/2;
-		int rgb = img.getPixel(w, h);
-		int red = (rgb >> 16) & 0x000000FF;
-		int green = (rgb >> 8) & 0x000000FF;
-		int blue = (rgb) & 0x000000FF;
-		System.out.println("RGB: " + rgb);
-		System.out.println("Red: " + red);
-		System.out.println("Green: " + green);
-		System.out.println("Blue: " + blue);*/
 
     }
 
+    public void analyzePNG(int frameLength) {
+        int counter = 1;
+        String binaryOutput = "";
+        Bitmap mBitmap;
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+        opt.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+        for (int i = 0; i <25; i++) {
+            mBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath()
+                    + "/led/i-" + (counter-1) + ".png", opt);
+
+            int intColor = 0;
+            int x = mBitmap.getWidth() / 2;
+            int y = mBitmap.getHeight() / 2;
+            intColor = mBitmap.getPixel(x, y);
+
+            int r = (intColor >> 16) & 0xff;
+            int g = (intColor >> 8) & 0xff;
+            int b = intColor & 0xff;
+
+           System.out.println("Index Color value: " + intColor);
+           System.out.println("Red: " + r);
+           System.out.println("Green: " + g);
+           System.out.println("Blue: " + b);
+
+            System.out.println("Final String: " + binaryOutput);
+
+            if (r >200) {
+
+                    binaryOutput = binaryOutput + "1";
+
+                }
+             else {
+
+                binaryOutput = binaryOutput + "0";
+
+            }
+            counter++;
+
+        }
+        System.out.println("Final String: " + binaryOutput);
+        final TextView testBin = (TextView) findViewById(R.id.test_bin);
+        testBin.setText(binaryOutput);
+
+    }
 }
