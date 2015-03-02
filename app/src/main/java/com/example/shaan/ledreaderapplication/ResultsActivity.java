@@ -32,10 +32,10 @@ public class ResultsActivity extends ActionBarActivity {
         final TextView testStr = (TextView) findViewById(R.id.test_str);
 
 
-        Button button1 = (Button) findViewById(R.id.gen_imgs_btn);
+        ;
         Button button2 = (Button) findViewById(R.id.gen_results_btn);
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 try {

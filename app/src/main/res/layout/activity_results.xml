@@ -91,15 +91,6 @@
 
         </LinearLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Seperate Images"
-            android:background="@color/primary_dark"
-            android:id="@+id/gen_imgs_btn"
-            android:layout_gravity="center_horizontal"
-            android:clickable="true"
-            android:layout_marginTop="22dp" />
 
         <Button
             android:layout_width="wrap_content"

@@ -3,6 +3,7 @@ package com.example.shaan.ledreaderapplication;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
@@ -49,7 +50,13 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
 
 
         setContentView(R.layout.activity_camera_comm);
+
         initComs();
+//        SurfaceView transparentView = (SurfaceView)findViewById(R.id.TransparentView);
+//        SurfaceHolder holderTransparent = transparentView.getHolder();
+//        holderTransparent.setFormat(PixelFormat.TRANSPARENT);
+//        holderTransparent.addCallback(this);
+//        holderTransparent.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         actionListener();
     }
 
@@ -80,17 +87,7 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
                     recorder.start();
                     Toast.makeText(getApplicationContext(), "Recording Started", Toast.LENGTH_SHORT).show();
                     recording = true;
-//                    if (usecamera) {
-//                        try {
-//                            camera.reconnect();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                    // recorder.release();
-//                    recording = false;
-//                    // Let's prepareRecorder so we can record again
-//                    prepareRecorder();
+//
                 }
                 else{
                     recording=false;
@@ -191,4 +188,8 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
         Intent intent = new Intent(this, ResultsActivity.class);
         startActivity(intent);
     }
+//    private void DrawFocusRect(float RectLeft, float RectRight, float RectBottom, float RectTop, int Color){
+//        canvas = holderTransparent.lockCanvas();
+//
+//    }
 }
