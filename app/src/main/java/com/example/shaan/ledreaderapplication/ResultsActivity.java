@@ -18,6 +18,8 @@ import org.bytedeco.javacv.FFmpegFrameGrabber;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.bytedeco.javacpp.opencv_imgproc.cvCvtColor;
 
@@ -32,7 +34,6 @@ public class ResultsActivity extends ActionBarActivity {
         final TextView testStr = (TextView) findViewById(R.id.test_str);
 
 
-        ;
         Button button2 = (Button) findViewById(R.id.gen_results_btn);
 
         button2.setOnClickListener(new View.OnClickListener() {
@@ -50,13 +51,6 @@ public class ResultsActivity extends ActionBarActivity {
             }
         });
 
-
-        button2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-
-            }
-        });
 
     }
 
@@ -91,6 +85,10 @@ public class ResultsActivity extends ActionBarActivity {
         opencv_core.IplImage _imgs;
         Bitmap bitmap = null;
         FileOutputStream out = null;
+        String binaryOutput = "";
+        List<Integer> RGBFrameAvgs = new ArrayList<Integer>();
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+        opt.inPreferredConfig = Bitmap.Config.ARGB_8888;
 
         try {
             FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(Environment.getExternalStorageDirectory().getAbsolutePath()
@@ -99,11 +97,13 @@ public class ResultsActivity extends ActionBarActivity {
             grabber.start();
 
             frameLength = grabber.getLengthInFrames();
-
-            for (int i = 0; i < frameLength; i++) {
-                //ImageIO.write(g.grab().getBufferedImage(), "png", new File("video-frame-" + System.currentTimeMillis() + ".png"));
+            System.out.println("frameLength: "+ frameLength);
+            for (int i = 0; i < .9*frameLength; i++) {
+                System.out.println("i: "+ i);
                 imgs = grabber.grab();
+
                 int height = imgs.height();
+
                 int width = imgs.width();
                 _imgs = opencv_core.IplImage.create(width, height, opencv_core.IPL_DEPTH_8U, 4);
 
@@ -111,67 +111,94 @@ public class ResultsActivity extends ActionBarActivity {
                         Bitmap.Config.ARGB_8888);
                 cvCvtColor(imgs, _imgs, opencv_imgproc.CV_BGR2RGBA);
                 bitmap.copyPixelsFromBuffer(_imgs.getByteBuffer());
-                out = new FileOutputStream(Environment.getExternalStorageDirectory().getAbsolutePath()
-                        + "/led/i-" + counter + ".png");
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                out.close();
-                counter++;
+
+
+                int intColor = 0;
+                int xMiddle = bitmap.getWidth() / 2;
+                int yMiddle = bitmap.getHeight() / 2;
+
+                int xPtr = xMiddle - 55;
+                int yPtr = yMiddle - 55;
+                int xEnd = xMiddle + 55;
+                int yEnd = yMiddle + 55;
+                int rTotal = 0;
+                int gTotal = 0;
+                int bTotal = 0;
+                int rgbAvg = 0;
+
+
+                for (int m = xPtr; m < xEnd+ 1; m++) {
+                    for (int n = yPtr; n < yEnd + 1; n++) {
+
+                        intColor = bitmap.getPixel(m, n);
+                        int r = (intColor >> 16) & 0xff;
+                        int g = (intColor >> 8) & 0xff;
+                        int b = intColor & 0xff;
+
+                        rTotal = rTotal + r;
+                        gTotal = gTotal + g;
+                        bTotal = bTotal + b;
+
+
+                    }
+
+                }
+
+                int rAvg = rTotal / 12100;
+                int gAvg = gTotal / 12100;
+                int bAvg = bTotal / 12100;
+                rgbAvg = (rAvg + gAvg + bAvg) / 3;
+                System.out.println(" rgbAvg:  " + rgbAvg);
+                RGBFrameAvgs.add(rgbAvg);
+
+
             }
 
 
             grabber.stop();
             grabber.release();
+            System.out.println(" SUp");
+            double threshold = calculateAverage(RGBFrameAvgs);
+            binaryOutput = findBinary(RGBFrameAvgs, threshold);
+
+
+            final TextView testBin = (TextView) findViewById(R.id.test_bin);
+            testBin.setText(binaryOutput);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        analyzePNG(frameLength);
 
 
     }
 
-    public void analyzePNG(int frameLength) {
-        int counter = 1;
-        String binaryOutput = "";
-        Bitmap mBitmap;
-        BitmapFactory.Options opt = new BitmapFactory.Options();
-        opt.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-        for (int i = 0; i <25; i++) {
-            mBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath()
-                    + "/led/i-" + (counter-1) + ".png", opt);
-
-            int intColor = 0;
-            int x = mBitmap.getWidth() / 2;
-            int y = mBitmap.getHeight() / 2;
-            intColor = mBitmap.getPixel(x, y);
-
-            int r = (intColor >> 16) & 0xff;
-            int g = (intColor >> 8) & 0xff;
-            int b = intColor & 0xff;
-
-           System.out.println("Index Color value: " + intColor);
-           System.out.println("Red: " + r);
-           System.out.println("Green: " + g);
-           System.out.println("Blue: " + b);
-
-            System.out.println("Final String: " + binaryOutput);
-
-            if (r >200) {
-
-                    binaryOutput = binaryOutput + "1";
-
-                }
-             else {
-
-                binaryOutput = binaryOutput + "0";
-
+    private double calculateAverage(List<Integer> Values) {
+        Integer sum = 0;
+        if (!Values.isEmpty()) {
+            for (Integer Value : Values) {
+                sum += Value;
             }
-            counter++;
-
+            return sum.doubleValue() / Values.size();
         }
-        System.out.println("Final String: " + binaryOutput);
-        final TextView testBin = (TextView) findViewById(R.id.test_bin);
-        testBin.setText(binaryOutput);
+        return sum;
+    }
+
+    private String findBinary(List<Integer> Values, double threshold) {
+        String result = "";
+
+
+        for (int i = 0; i < Values.size(); i++) {
+            System.out.println(Values.get(i));
+            if (Values.get(i) > threshold + threshold*.20) {
+                result = result + "1";
+            } else {
+                result = result + "0";
+            }
+        }
+
+
+        return result;
 
     }
+
+
 }

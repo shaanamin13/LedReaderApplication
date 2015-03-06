@@ -72,7 +72,7 @@
                         android:textSize="19sp"
                         android:textColor="@color/primary_dark"
                         android:layout_height="wrap_content"
-                        android:layout_width="wrap_content" />
+                        android:layout_width="100dp" />
 
                     <TextView
                         android:id="@+id/test_str"
@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Generate Results"
-            android:background="@color/accent"
+            android:background="@color/primary_dark"
             android:id="@+id/gen_results_btn"
             android:layout_gravity="center_horizontal"
             android:clickable="true"
