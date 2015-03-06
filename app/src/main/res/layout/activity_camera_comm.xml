@@ -10,8 +10,6 @@
         android:id="@+id/surfaceView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:alpha=".7"
-        android:backgroundTint="@color/primary_light"
         android:backgroundTintMode="src_atop" />
 
     <FrameLayout
@@ -20,6 +18,21 @@
         android:layout_centerInParent="true"
         android:padding="10dp"
         android:background="#ff00ff6c"></FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Please place light source within square and press record"
+        android:id="@+id/textView2"
+        android:background="@color/accent"
+        android:alpha=".84"
+        android:textColor="#ffffffff"
+        android:layout_above="@+id/btn_stop"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="50dp"
+        android:textAlignment="center"
+        android:textStyle="bold" />
 
     <SurfaceView
         android:layout_width="150dp"
@@ -36,6 +49,7 @@
         android:background="#E57373"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:clickable="true" />
+        android:clickable="true"
+        android:layout_margin="20dp" />
 
 </RelativeLayout>
