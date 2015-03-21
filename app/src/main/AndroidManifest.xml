@@ -16,7 +16,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,8 +49,8 @@
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.shaan.ledreaderapplication.MainActivity"
-                android:screenOrientation="portrait"/>
+                android:screenOrientation="portrait"
+                android:value="com.example.shaan.ledreaderapplication.MainActivity" />
         </activity>
         <activity
             android:name=".ResultsActivity"
@@ -58,7 +58,12 @@
             android:parentActivityName=".CameraCommActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
+                android:screenOrientation="portrait"
                 android:value="com.example.shaan.ledreaderapplication.CameraCommActivity" />
+        </activity>
+        <activity
+            android:name=".FlashActivity"
+            android:label="@string/title_activity_flash" >
         </activity>
     </application>
 
