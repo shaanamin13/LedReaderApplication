@@ -3,7 +3,6 @@ package com.example.shaan.ledreaderapplication;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
@@ -15,6 +14,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -39,6 +40,9 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
     SimpleDateFormat simpleDateFormat;
     String timeStamp;
 
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,33 +54,63 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
 
 
         setContentView(R.layout.activity_camera_comm);
-
+        TextView textView = (TextView)findViewById(R.id.textView2);
+        Button flashBtn = (Button) findViewById(R.id.btn_flash);
         initComs();
+        textView.setText("Please position camera flash on photodiode and click send signal button");
 //        SurfaceView transparentView = (SurfaceView)findViewById(R.id.TransparentView);
 //        SurfaceHolder holderTransparent = transparentView.getHolder();
 //        holderTransparent.setFormat(PixelFormat.TRANSPARENT);
 //        holderTransparent.addCallback(this);
 //        holderTransparent.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        flashBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Camera cam = Camera.open();
+                Camera.Parameters pon = cam.getParameters(), poff = cam.getParameters();
+                pon.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                poff.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+
+                for(int i = 0; i<100; i++){
+                    cam.setParameters(pon);
+                    cam.setParameters(poff);
+
+
+                }
+                cam.release();
+                hideFlashFeatures();
+                showCameraFeatures();
+
+            }
+        });
+
         actionListener();
     }
 
     private void initComs() {
+
+
         simpleDateFormat = new SimpleDateFormat("ddMMyyyyhhmmss");
         timeStamp = simpleDateFormat.format(new Date());
         camcorderProfile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
+
         btnStop = (Button) findViewById(R.id.btn_stop);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+
 
 
     }
 
 
 
-
     private void actionListener() {
+
+
         btnStop.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -188,8 +222,27 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
         Intent intent = new Intent(this, ResultsActivity.class);
         startActivity(intent);
     }
+
+
+    public void showCameraFeatures(){
+        TextView textView = (TextView)findViewById(R.id.textView2);
+        FrameLayout frameLayout = (FrameLayout)findViewById(R.id.green_frame);
+
+        textView.setText("Please place emitting LED light source within square and press record");
+        frameLayout.setVisibility(View.VISIBLE);
+        btnStop.setVisibility(View.VISIBLE);
+
+    }
+    public void hideFlashFeatures(){
+        Button flashBtn = (Button) findViewById(R.id.btn_flash);
+        flashBtn.setVisibility(View.GONE);
+    }
+
 //    private void DrawFocusRect(float RectLeft, float RectRight, float RectBottom, float RectTop, int Color){
 //        canvas = holderTransparent.lockCanvas();
 //
 //    }
+
+
+
 }

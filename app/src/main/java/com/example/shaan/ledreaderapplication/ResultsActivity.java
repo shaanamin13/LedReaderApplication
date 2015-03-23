@@ -1,5 +1,6 @@
 package com.example.shaan.ledreaderapplication;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class ResultsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         final TextView testBin = (TextView) findViewById(R.id.test_bin);
         final TextView testStr = (TextView) findViewById(R.id.test_str);
