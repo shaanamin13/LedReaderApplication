@@ -1,17 +1,52 @@
 package com.example.shaan.ledreaderapplication;
 
+import android.hardware.Camera;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class SettingsActivity extends ActionBarActivity {
-
+      Camera cam;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        Button turnOn = (Button) findViewById(R.id.FlashOn);
+        Button turnOff = (Button) findViewById(R.id.FlashOff);
+        Button testButton = (Button) findViewById(R.id.FlashTest);
+
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                for(int i=0; i<100; i++) {
+                    Camera cam = Camera.open();
+                    Camera.Parameters p = cam.getParameters();
+                    p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                    cam.setParameters(p);
+                    cam.startPreview();
+
+                    cam.stopPreview();
+                    cam.release();
+
+                }
+
+            }
+        });
+
+
+        turnOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
 

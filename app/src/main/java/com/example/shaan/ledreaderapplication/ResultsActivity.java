@@ -43,7 +43,7 @@ public class ResultsActivity extends ActionBarActivity {
 
                     analyzeFrames();
 
-                    testStr.setText("TBD");
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -95,11 +95,12 @@ public class ResultsActivity extends ActionBarActivity {
                     + "/led/LEDAnalysis.mp4");
             grabber.setFormat("mp4");
             grabber.start();
+            System.out.println(grabber.getFrameRate());
 
             frameLength = grabber.getLengthInFrames();
             System.out.println("frameLength: "+ frameLength);
             for (int i = 0; i < .9*frameLength; i++) {
-                System.out.println("i: "+ i);
+                System.out.println("Frame i: "+ i);
                 imgs = grabber.grab();
 
                 int height = imgs.height();
@@ -157,13 +158,18 @@ public class ResultsActivity extends ActionBarActivity {
 
             grabber.stop();
             grabber.release();
-            System.out.println(" SUp");
+
             double threshold = calculateAverage(RGBFrameAvgs);
             binaryOutput = findBinary(RGBFrameAvgs, threshold);
-
+            System.out.println(binaryOutput);
 
             final TextView testBin = (TextView) findViewById(R.id.test_bin);
             testBin.setText(binaryOutput);
+
+            final TextView testStr = (TextView) findViewById(R.id.test_str);
+            testStr.setText(BinarytoAscii.conversion(binaryOutput));
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -188,7 +194,7 @@ public class ResultsActivity extends ActionBarActivity {
 
         for (int i = 0; i < Values.size(); i++) {
             System.out.println(Values.get(i));
-            if (Values.get(i) > threshold + threshold*.20) {
+            if (Values.get(i) > threshold + threshold*.15) {
                 result = result + "1";
             } else {
                 result = result + "0";
