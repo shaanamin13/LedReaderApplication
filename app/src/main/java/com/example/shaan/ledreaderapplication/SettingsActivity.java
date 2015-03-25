@@ -24,7 +24,7 @@ public class SettingsActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                for(int i=0; i<100; i++) {
+                   for(int i=0; i<100; i++) {
                     Camera cam = Camera.open();
                     Camera.Parameters p = cam.getParameters();
                     p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);

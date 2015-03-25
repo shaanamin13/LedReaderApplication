@@ -12,12 +12,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import org.bytedeco.javacpp.FlyCapture2;
 import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_imgproc;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,13 +165,33 @@ public class ResultsActivity extends ActionBarActivity {
 
             double threshold = calculateAverage(RGBFrameAvgs);
             binaryOutput = findBinary(RGBFrameAvgs, threshold);
-            System.out.println(binaryOutput);
+            System.out.println("Actual Binary: " + binaryOutput);
 
             final TextView testBin = (TextView) findViewById(R.id.test_bin);
             testBin.setText(binaryOutput);
 
             final TextView testStr = (TextView) findViewById(R.id.test_str);
             testStr.setText(BinarytoAscii.conversion(binaryOutput));
+
+
+
+            File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/led");
+            File log = new File(directory, "ledLogs.txt");
+
+            Long tsLong = System.currentTimeMillis()/1000;
+            String ts = tsLong.toString();
+
+            FileOutputStream fOut = new FileOutputStream(log, true);
+            OutputStreamWriter osw = new OutputStreamWriter(fOut);
+            osw.write(ts + " " + testStr.getText().toString());
+            osw.append('\n');
+            osw.flush();
+            osw.close();
+
+
+
+
+
 
 
         } catch (Exception e) {
