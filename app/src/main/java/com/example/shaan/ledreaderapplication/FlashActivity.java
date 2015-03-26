@@ -38,7 +38,7 @@ public class FlashActivity extends ActionBarActivity {
 
                     cam.stopPreview();
                     cam.release();
-
+                    startCamera();
 
 
             }
@@ -58,6 +58,7 @@ public class FlashActivity extends ActionBarActivity {
 
                     cam.stopPreview();
                     cam.release();
+                    startCamera();
 
                 }
 
@@ -78,7 +79,10 @@ public class FlashActivity extends ActionBarActivity {
                     cam.stopPreview();
                     cam.release();
 
+
                 }
+
+                startCamera();
 
             }
         });
@@ -97,7 +101,9 @@ public class FlashActivity extends ActionBarActivity {
                     cam.stopPreview();
                     cam.release();
 
+
                 }
+                startCamera();
 
             }
         });
@@ -116,7 +122,9 @@ public class FlashActivity extends ActionBarActivity {
                     cam.stopPreview();
                     cam.release();
 
+
                 }
+                startCamera();
 
             }
         });
@@ -135,14 +143,16 @@ public class FlashActivity extends ActionBarActivity {
                     cam.stopPreview();
                     cam.release();
 
+
                 }
+                startCamera();
 
             }
         });
 
     }
 
-    public void startCamera(View view) {
+    public void startCamera() {
         Intent intent = new Intent(this, CameraCommActivity.class);
         startActivity(intent);
 

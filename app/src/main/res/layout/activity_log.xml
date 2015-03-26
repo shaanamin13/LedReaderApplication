@@ -68,6 +68,14 @@
 
             </TableRow>
         </TableLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send Logs to Email"
+            android:id="@+id/email_btn"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/primary_dark" />
     </LinearLayout>
 
 </RelativeLayout>

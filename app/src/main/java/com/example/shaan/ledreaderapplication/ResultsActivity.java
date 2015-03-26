@@ -1,5 +1,7 @@
 package com.example.shaan.ledreaderapplication;
 
+import android.app.ProgressDialog;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -32,10 +34,8 @@ public class ResultsActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_results);
-
-        final TextView testBin = (TextView) findViewById(R.id.test_bin);
-        final TextView testStr = (TextView) findViewById(R.id.test_str);
 
 
         Button button2 = (Button) findViewById(R.id.gen_results_btn);
@@ -43,19 +43,30 @@ public class ResultsActivity extends ActionBarActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                try {
-
-                    analyzeFrames();
-
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+              launchRingDialog();
             }
         });
 
 
+    }
+
+    public void launchRingDialog() {
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(ResultsActivity.this, "Please wait ...", "Analyzing Frames...", true);
+        ringProgressDialog.setCancelable(true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // Here you should write your time consuming task...
+                    // Let the progress ring for 10 seconds...
+                    analyzeFrames();
+
+                } catch (Exception e) {
+
+                }
+                ringProgressDialog.dismiss();
+            }
+        }).start();
     }
 
 
@@ -163,18 +174,15 @@ public class ResultsActivity extends ActionBarActivity {
             grabber.stop();
             grabber.release();
 
+
+
             double threshold = calculateAverage(RGBFrameAvgs);
             binaryOutput = findBinary(RGBFrameAvgs, threshold);
             System.out.println("Actual Binary: " + binaryOutput);
 
-            final TextView testBin = (TextView) findViewById(R.id.test_bin);
-            testBin.setText(binaryOutput);
+            updateTable(binaryOutput);
 
             final TextView testStr = (TextView) findViewById(R.id.test_str);
-            testStr.setText(BinarytoAscii.conversion(binaryOutput));
-
-
-
             File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/led");
             File log = new File(directory, "ledLogs.txt");
 
@@ -187,12 +195,6 @@ public class ResultsActivity extends ActionBarActivity {
             osw.append('\n');
             osw.flush();
             osw.close();
-
-
-
-
-
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -227,6 +229,22 @@ public class ResultsActivity extends ActionBarActivity {
 
 
         return result;
+
+    }
+
+   private void updateTable(final String binary){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final TextView testBin = (TextView) findViewById(R.id.test_bin);
+                testBin.setText(binary);
+
+                final TextView testStr = (TextView) findViewById(R.id.test_str);
+                testStr.setText(BinarytoAscii.conversion(binary));
+
+
+            }
+        });
 
     }
 

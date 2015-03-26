@@ -54,30 +54,21 @@ public class BinarytoAscii {
 
             } else
 
-                string.append("**Try Againn?");
+                string.append("No Led Detected, Please Try Again");
 
         } else {
 
             while (binaryOutput.charAt(start) == '0' && foundStart == false) {
 
                 if (binaryOutput.charAt(start + 1) == '1')
-
                     foundStart = true;
-
                 else {
-
-                    if(binaryOutput.length() >= start + 1) {
-                        start++;
-                        foundStart = false;
+                    start++;
+                    foundStart = false;
+                    if (binaryOutput.length() == start+1){
+                        return "No start bit was found";
                     }
-                    else{
-                        return "No code detected please try again";
-                    }
-
-
-
                 }
-
             } // end while
 
             while (binaryOutput.charAt(stop) == '0' && foundStop == false) {
@@ -213,24 +204,10 @@ public class BinarytoAscii {
 
         }
 
+        string.delete(0,string.length()-1);
         total = "" + attribute0 + attribute1 + attribute2 + attribute3 + attribute4 + attribute5 + attribute6 + attribute7;
         return total;
 
-//        System.out.println("Attribute0: " + attribute0);
-//
-//        System.out.println("Attribute1: " + attribute1);
-//
-//        System.out.println("Attribute2: " + attribute2);
-//
-//        System.out.println("Attribute3: " + attribute3);
-//
-//        System.out.println("Attribute4: " + attribute4);
-//
-//        System.out.println("Attribute5: " + attribute5);
-//
-//        System.out.println("Attribute6: " + attribute6);
-//
-//        System.out.println("Attribute7: " + attribute7);
 
     } // end method
 

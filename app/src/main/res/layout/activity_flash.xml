@@ -47,7 +47,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginBottom="25sp"
-            android:onClick="startCamera" />
+            />
 
         <Button
             android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginBottom="25dp"
-            android:onClick="startCamera" />
+             />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginBottom="25dp"
-            android:onClick="startCamera" />
+            />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
             android:layout_below="@+id/Breaker5"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:onClick="startCamera" />
+             />
 
     </LinearLayout>
 
