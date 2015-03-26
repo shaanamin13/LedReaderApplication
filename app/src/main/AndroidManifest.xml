@@ -5,14 +5,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.flashlight"/>
 
-    <permission android:name="android.permission.FLASHLIGHT"
-        android:permissionGroup="android.permission-group.HARDWARE_CONTROLS"
-        android:protectionLevel="normal"
-        />
-
-    <uses-feature android:name="android.hardware.camera2.flash"/>
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -65,10 +58,12 @@
             android:parentActivityName=".CameraCommActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:screenOrientation="portrait"
                 android:value="com.example.shaan.ledreaderapplication.CameraCommActivity" />
         </activity>
-
+        <activity
+            android:name=".FlashActivity"
+            android:label="@string/title_activity_flash" >
+        </activity>
     </application>
 
 </manifest>

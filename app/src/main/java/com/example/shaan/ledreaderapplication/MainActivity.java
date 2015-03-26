@@ -111,8 +111,8 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void startCamera(View view) {
-        Intent intent = new Intent(this, CameraCommActivity.class);
+    public void startFlash(View view) {
+        Intent intent = new Intent(this, FlashActivity.class);
         startActivity(intent);
 
     }

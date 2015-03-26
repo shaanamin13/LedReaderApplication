@@ -10,12 +10,28 @@
     tools:context="com.example.shaan.ledreaderapplication.SettingsActivity"
     android:id="@+id/settings_layout">
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings will be placed in this activity"
-        android:textAlignment="center"
-        android:textSize="22dp"
-        android:textStyle="bold" />
+        android:text="Flash OFF"
+        android:id="@+id/FlashOff"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="157dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Flash ON"
+        android:id="@+id/FlashOn"
+        android:layout_below="@+id/FlashOff"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Flash Test"
+        android:id="@+id/FlashTest"
+        android:layout_below="@+id/FlashOn"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

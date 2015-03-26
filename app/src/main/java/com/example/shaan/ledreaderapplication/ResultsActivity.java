@@ -1,5 +1,6 @@
 package com.example.shaan.ledreaderapplication;
 
+import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,12 +14,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import org.bytedeco.javacpp.FlyCapture2;
 import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_imgproc;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,11 +34,8 @@ public class ResultsActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_results);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        final TextView testBin = (TextView) findViewById(R.id.test_bin);
-        final TextView testStr = (TextView) findViewById(R.id.test_str);
+        setContentView(R.layout.activity_results);
 
 
         Button button2 = (Button) findViewById(R.id.gen_results_btn);
@@ -41,19 +43,30 @@ public class ResultsActivity extends ActionBarActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                try {
-
-                    analyzeFrames();
-
-                    testStr.setText("TBD");
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+              launchRingDialog();
             }
         });
 
 
+    }
+
+    public void launchRingDialog() {
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(ResultsActivity.this, "Please wait ...", "Analyzing Frames...", true);
+        ringProgressDialog.setCancelable(true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // Here you should write your time consuming task...
+                    // Let the progress ring for 10 seconds...
+                    analyzeFrames();
+
+                } catch (Exception e) {
+
+                }
+                ringProgressDialog.dismiss();
+            }
+        }).start();
     }
 
 
@@ -97,11 +110,12 @@ public class ResultsActivity extends ActionBarActivity {
                     + "/led/LEDAnalysis.mp4");
             grabber.setFormat("mp4");
             grabber.start();
+            System.out.println(grabber.getFrameRate());
 
             frameLength = grabber.getLengthInFrames();
             System.out.println("frameLength: "+ frameLength);
             for (int i = 0; i < .9*frameLength; i++) {
-                System.out.println("i: "+ i);
+                System.out.println("Frame i: "+ i);
                 imgs = grabber.grab();
 
                 int height = imgs.height();
@@ -159,13 +173,29 @@ public class ResultsActivity extends ActionBarActivity {
 
             grabber.stop();
             grabber.release();
-            System.out.println(" SUp");
+
+
+
             double threshold = calculateAverage(RGBFrameAvgs);
             binaryOutput = findBinary(RGBFrameAvgs, threshold);
+            System.out.println("Actual Binary: " + binaryOutput);
 
+            updateTable(binaryOutput);
 
-            final TextView testBin = (TextView) findViewById(R.id.test_bin);
-            testBin.setText(binaryOutput);
+            final TextView testStr = (TextView) findViewById(R.id.test_str);
+            File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/led");
+            File log = new File(directory, "ledLogs.txt");
+
+            Long tsLong = System.currentTimeMillis()/1000;
+            String ts = tsLong.toString();
+
+            FileOutputStream fOut = new FileOutputStream(log, true);
+            OutputStreamWriter osw = new OutputStreamWriter(fOut);
+            osw.write(ts + " " + testStr.getText().toString());
+            osw.append('\n');
+            osw.flush();
+            osw.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -190,7 +220,7 @@ public class ResultsActivity extends ActionBarActivity {
 
         for (int i = 0; i < Values.size(); i++) {
             System.out.println(Values.get(i));
-            if (Values.get(i) > threshold + threshold*.20) {
+            if (Values.get(i) > threshold + threshold*.15) {
                 result = result + "1";
             } else {
                 result = result + "0";
@@ -199,6 +229,22 @@ public class ResultsActivity extends ActionBarActivity {
 
 
         return result;
+
+    }
+
+   private void updateTable(final String binary){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final TextView testBin = (TextView) findViewById(R.id.test_bin);
+                testBin.setText(binary);
+
+                final TextView testStr = (TextView) findViewById(R.id.test_str);
+                testStr.setText(BinarytoAscii.conversion(binary));
+
+
+            }
+        });
 
     }
 
