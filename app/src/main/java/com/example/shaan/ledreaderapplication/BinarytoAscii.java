@@ -30,7 +30,11 @@ public class BinarytoAscii {
 
                     foundStop = true;
 
-                else {
+                else if (stop == start) {
+
+                    return "No stop bit was found.";
+
+                } else {
 
                     stop--;
 
@@ -54,7 +58,7 @@ public class BinarytoAscii {
 
             } else
 
-                string.append("No Led Detected, Please Try Again");
+                return "No Led Detected, Please Try Again";
 
         } else {
 
@@ -84,7 +88,7 @@ public class BinarytoAscii {
                         foundStop = false;
                     }
                     else{
-                        return "stopbit was not found";
+                        return "Stop bit was not found";
                     }
                 }
 
@@ -104,7 +108,7 @@ public class BinarytoAscii {
 
             } else
 
-                return "**Try Again?";
+                return "Try Again ...";
 
         }
 
