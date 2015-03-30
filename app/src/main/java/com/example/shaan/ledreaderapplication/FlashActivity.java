@@ -14,13 +14,12 @@ import android.widget.Button;
 
 public class FlashActivity extends ActionBarActivity {
 
-    public Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flash);
-        StrobeRunner runner;
+
 
         Button breakerOne = (Button) findViewById(R.id.Breaker1);
         Button breakerTwo = (Button) findViewById(R.id.Breaker2);
@@ -42,7 +41,7 @@ public class FlashActivity extends ActionBarActivity {
 
                 cam.stopPreview();
                 cam.release();
-                startCamera();
+                flashFunction(500);
 
 
             }
@@ -52,32 +51,20 @@ public class FlashActivity extends ActionBarActivity {
         breakerTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Thread bw;
-                StrobeRunner runner = StrobeRunner.getInstance();
-                final Handler mHandler = new Handler();
-                runner.controller = FlashActivity.this;
-
-                bw = new Thread(runner);
-                bw.start();
 
 
+                Camera cam = Camera.open();
+                Camera.Parameters p = cam.getParameters();
+                p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                cam.setParameters(p);
+                cam.startPreview();
 
-               // flashFunction();
+                cam.stopPreview();
+                cam.release();
 
-//                for(int i=0; i<2; i++) {
-//                    Camera cam = Camera.open();
-//                    Camera.Parameters p = cam.getParameters();
-//                    p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-//                    p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-//                    cam.setParameters(p);
-//                    cam.startPreview();
-//
-//                    cam.stopPreview();
-//                    cam.release();
-//
-//
-//                }
-//                startCamera();
+                flashFunction(1000);
+
+                startCamera();
             }
         });
 
@@ -85,7 +72,7 @@ public class FlashActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                for (int i = 0; i < 3; i++) {
+
                     Camera cam = Camera.open();
                     Camera.Parameters p = cam.getParameters();
                     p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
@@ -95,10 +82,9 @@ public class FlashActivity extends ActionBarActivity {
                     cam.stopPreview();
                     cam.release();
 
+                    flashFunction(1500);
 
-                }
 
-                startCamera();
 
             }
         });
@@ -107,7 +93,7 @@ public class FlashActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                for (int i = 0; i < 4; i++) {
+
                     Camera cam = Camera.open();
                     Camera.Parameters p = cam.getParameters();
                     p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
@@ -117,9 +103,7 @@ public class FlashActivity extends ActionBarActivity {
                     cam.stopPreview();
                     cam.release();
 
-
-                }
-                startCamera();
+                    flashFunction(2000);
 
             }
         });
@@ -128,7 +112,7 @@ public class FlashActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                for (int i = 0; i < 5; i++) {
+
                     Camera cam = Camera.open();
                     Camera.Parameters p = cam.getParameters();
                     p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
@@ -138,9 +122,8 @@ public class FlashActivity extends ActionBarActivity {
                     cam.stopPreview();
                     cam.release();
 
+                    flashFunction(2500);
 
-                }
-                startCamera();
 
             }
         });
@@ -149,7 +132,7 @@ public class FlashActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                for (int i = 0; i < 6; i++) {
+
                     Camera cam = Camera.open();
                     Camera.Parameters p = cam.getParameters();
                     p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
@@ -159,28 +142,31 @@ public class FlashActivity extends ActionBarActivity {
                     cam.stopPreview();
                     cam.release();
 
+                    flashFunction(3000);
 
-                }
-                startCamera();
+
 
             }
         });
 
     }
 
-    private void flashFunction() {
+    private void flashFunction(final int delay) {
         Runnable runnable = new Runnable() {
             public void run() {
 
-                    Camera cam = Camera.open();
-                    Camera.Parameters p = cam.getParameters();
-                    p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                    cam.setParameters(p);
-                    cam.startPreview();
-
-                    cam.stopPreview();
-                    cam.release();
-
+                Camera cam = Camera.open();
+                Camera.Parameters p = cam.getParameters();
+                p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                cam.setParameters(p);
+                cam.startPreview();
+                try {
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                cam.stopPreview();
+                cam.release();
 
 
                 startCamera();
@@ -197,27 +183,25 @@ public class FlashActivity extends ActionBarActivity {
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_flash, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-            @Override
-            public boolean onCreateOptionsMenu (Menu menu){
-                // Inflate the menu; this adds items to the action bar if it is present.
-                getMenuInflater().inflate(R.menu.menu_flash, menu);
-                return true;
-            }
-
-            @Override
-            public boolean onOptionsItemSelected (MenuItem item){
-                // Handle action bar item clicks here. The action bar will
-                // automatically handle clicks on the Home/Up button, so long
-                // as you specify a parent activity in AndroidManifest.xml.
-                int id = item.getItemId();
-
-                //noinspection SimplifiableIfStatement
-                if (id == R.id.action_settings) {
-                    return true;
-                }
-
-                return super.onOptionsItemSelected(item);
-            }
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
+    }
+}
