@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static org.bytedeco.javacpp.opencv_imgproc.cvCvtColor;
@@ -186,12 +187,22 @@ public class ResultsActivity extends ActionBarActivity {
             File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/led");
             File log = new File(directory, "ledLogs.txt");
 
-            Long tsLong = System.currentTimeMillis()/1000;
-            String ts = tsLong.toString();
+            Calendar c = Calendar.getInstance();
+            int seconds = c.get(Calendar.SECOND);
+            int minute = c.get(Calendar.MINUTE);
+            int hour = c.get(Calendar.HOUR);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            int month = c.get(Calendar.MONTH);
+            String logStr = testStr.getText().toString();
+            String now = month + "-" + day + "_" + hour + ":" + minute + ":" + seconds;
+//            Long tsLong = System.currentTimeMillis()/1000;
+//            String ts = tsLong.toString();
+
+            System.out.println(logStr);
 
             FileOutputStream fOut = new FileOutputStream(log, true);
             OutputStreamWriter osw = new OutputStreamWriter(fOut);
-            osw.write(ts + " " + testStr.getText().toString());
+            osw.write(now + " " + logStr);
             osw.append('\n');
             osw.flush();
             osw.close();
@@ -245,8 +256,14 @@ public class ResultsActivity extends ActionBarActivity {
 
             }
         });
+       try{
+           Thread.sleep(1000);
+       }catch (InterruptedException e){
 
-    }
+       }
+
+
+   }
 
 
 }

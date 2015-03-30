@@ -10,9 +10,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.bytedeco.javacv.FrameGrabber;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
 
 
 public class logActivity extends ActionBarActivity {
@@ -24,9 +32,12 @@ public class logActivity extends ActionBarActivity {
 
 
         Button emailButton = (Button) findViewById(R.id.email_btn);
+        getLogFile();
 
         emailButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+
                 doSendFile();
 
             }
@@ -64,7 +75,7 @@ public class logActivity extends ActionBarActivity {
         Intent i = new Intent(Intent.ACTION_SEND);
 
         i.setType("text/plain");
-        i.putExtra(Intent.EXTRA_EMAIL, new String[] { "send@uiowa.edu" });
+        i.putExtra(Intent.EXTRA_EMAIL, new String[]{"send@uiowa.edu"});
         i.putExtra(Intent.EXTRA_SUBJECT, "Circuit Breaker Status Log");
         i.putExtra(Intent.EXTRA_TEXT, "Attached is the text file for the circuit breaker status log. \n Sent via Android Smartphone.");
 
@@ -80,5 +91,36 @@ public class logActivity extends ActionBarActivity {
 
     }
 
+    public void getLogFile() {
+        TableLayout logTable = (TableLayout) findViewById(R.id.logtble);
 
+
+        try {
+            Scanner logFile = new Scanner(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/led/ledLogs.txt"));
+
+            while (logFile.hasNext()) {
+                TableRow row = new TableRow(this);
+                TextView tv = new TextView(this);
+                TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT);
+                row.setLayoutParams(lp);
+
+
+
+                String logText = logFile.nextLine();
+
+                tv.setText(logText);
+                row.addView(tv);
+                logTable.addView(row);
+
+                System.out.println(logText);
+            }
+
+            logFile.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
+
