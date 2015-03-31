@@ -149,12 +149,15 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
 
         if (usecamera) {
             camera = Camera.open();
+            Camera.Parameters parameters = camera.getParameters();
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
             camera.setDisplayOrientation(90);
 
 
             try {
                 camera.setPreviewDisplay(holder);
                 camera.startPreview();
+                camera.autoFocus(null);
                 previewRunning = true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -188,8 +191,5 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
         Intent intent = new Intent(this, ResultsActivity.class);
         startActivity(intent);
     }
-//    private void DrawFocusRect(float RectLeft, float RectRight, float RectBottom, float RectTop, int Color){
-//        canvas = holderTransparent.lockCanvas();
-//
-//    }
+
 }

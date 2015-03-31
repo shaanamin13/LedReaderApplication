@@ -14,7 +14,10 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/icons"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <Button
             android:layout_marginTop="25dp"
@@ -42,7 +45,7 @@
                     android:id="@+id/logtble">
 
                     <TableRow
-                        android:layout_width="fill_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="20dip">
 
@@ -56,16 +59,55 @@
 
                     </TableRow>
                     <TableRow
-                        android:layout_width="fill_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="20dip">
+                        android:padding="20dip"
+                        android:outlineProvider="paddedBounds"
+                        android:showDividers="beginning|middle|end">
 
                         <TextView
-                            android:layout_weight="1"
-                            android:text="attr1"
-                            android:textSize="22dp"
 
-                            />
+                            android:text="Timestamp"
+                            android:textSize="18sp"
+
+                            android:layout_width="wrap_content"
+                             />
+                        <TextView
+
+                            android:text="Breaker No."
+                            android:textSize="18sp"
+
+                            android:layout_width="wrap_content" />
+                        <TextView
+
+                            android:text="attr3"
+                            android:textSize="18sp"
+
+                            android:layout_width="wrap_content" />
+                        <TextView
+
+                            android:text="attr4"
+                            android:textSize="18sp"
+
+                            android:layout_width="wrap_content" />
+                        <TextView
+
+                            android:text="attr5"
+                            android:textSize="18sp"
+
+                            android:layout_width="wrap_content" />
+                        <TextView
+
+                            android:text="attr6"
+                            android:textSize="18sp"
+
+                            android:layout_width="wrap_content" />
+                        <TextView
+
+                            android:text="attr7"
+                            android:textSize="18sp"
+
+                            android:layout_width="wrap_content" />
 
 
                     </TableRow>
