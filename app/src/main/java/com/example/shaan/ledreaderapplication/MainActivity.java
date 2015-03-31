@@ -62,12 +62,8 @@ public class MainActivity extends ActionBarActivity
                 intent = new Intent(this, logActivity.class);
                 startActivity(intent);
                 break;
+
             case 3:
-                mTitle = "Settings";
-                intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                break;
-            case 4:
                 mTitle = "Help";
                  intent = new Intent(this, HelpActivity.class);
                 startActivity(intent);

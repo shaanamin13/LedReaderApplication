@@ -104,7 +104,6 @@ public class NavigationDrawerFragment extends Fragment {
                 new String[]{
                         "Circuit Breaker Analysis",
                         "Logs",
-                        "Settings",
                         "Help",
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
