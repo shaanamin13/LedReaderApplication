@@ -64,7 +64,7 @@ public class FlashActivity extends ActionBarActivity {
 
                 flashFunction(1000);
 
-                startCamera();
+
             }
         });
 
