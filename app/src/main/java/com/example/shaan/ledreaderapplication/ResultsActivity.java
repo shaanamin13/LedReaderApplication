@@ -1,6 +1,7 @@
 package com.example.shaan.ledreaderapplication;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -38,13 +39,27 @@ public class ResultsActivity extends ActionBarActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_results);
 
+        Button button1 = (Button) findViewById(R.id.get_logs_btn);
+        final Button button2 = (Button) findViewById(R.id.gen_results_btn);
+        Button button3 = (Button) findViewById(R.id.go_home_btn);
 
-        Button button2 = (Button) findViewById(R.id.gen_results_btn);
+        button1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
+                goToLogs();
+            }
+        });
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
               launchRingDialog();
+              button2.setVisibility(View.GONE);
+            }
+        });
+        button3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                goHome();
             }
         });
 
@@ -264,6 +279,17 @@ public class ResultsActivity extends ActionBarActivity {
 
 
    }
+
+
+    public void goToLogs(){
+        Intent intent = new Intent(this, logActivity.class);
+        startActivity(intent);
+    }
+
+    public void goHome(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 
 
 }

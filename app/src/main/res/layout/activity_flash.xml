@@ -10,88 +10,104 @@
     tools:context="com.example.shaan.ledreaderapplication.logActivity">
 
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/icons"
-        android:orientation="vertical">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Ensure camera flash is facing sensor prior to choosing breaker..."
-            android:id="@+id/textView3"
-            android:layout_gravity="center" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/icons"
+            android:orientation="vertical">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Breaker 1"
-            android:id="@+id/Breaker1"
-            android:background="@color/primary_light"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="25dp"
-            android:onClick="startCamera" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Ensure camera flash is facing sensor prior to choosing breaker..."
+                android:id="@+id/textView3"
+                android:layout_gravity="center" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Breaker 2"
-            android:id="@+id/Breaker2"
-            android:background="@color/primary_light"
-            android:layout_below="@+id/Breaker1"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_marginBottom="25sp"
-            />
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="Breaker 1"
+                android:id="@+id/Breaker1"
+                android:background="@color/primary_dark"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="25dp"
+                android:onClick="startCamera" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Breaker 3"
-            android:id="@+id/Breaker3"
-            android:background="@color/primary_light"
-            android:layout_below="@+id/Breaker2"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_marginBottom="25dp"
-             />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Breaker 4"
-            android:id="@+id/Breaker4"
-            android:background="@color/primary_light"
-            android:layout_below="@+id/Breaker3"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_marginBottom="25dp"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Breaker 5"
-            android:background="@color/primary_light"
-            android:id="@+id/Breaker5"
-            android:layout_below="@+id/Breaker4"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:layout_marginBottom="25dp" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Breaker 6"
-            android:background="@color/primary_light"
-            android:id="@+id/Breaker6"
-            android:layout_below="@+id/Breaker5"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-             />
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="Breaker 2"
+                android:id="@+id/Breaker2"
+                android:background="@color/primary_dark"
+                android:layout_below="@+id/Breaker1"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="25sp"
+                />
 
-    </LinearLayout>
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="Breaker 3"
+                android:id="@+id/Breaker3"
+                android:background="@color/primary_dark"
+                android:layout_below="@+id/Breaker2"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="25dp"
+                 />
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="Breaker 4"
+                android:id="@+id/Breaker4"
+                android:background="@color/primary_dark"
+                android:layout_below="@+id/Breaker3"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="25dp"
+                />
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="Breaker 5"
+                android:background="@color/primary_dark"
+                android:id="@+id/Breaker5"
+                android:layout_below="@+id/Breaker4"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="25dp" />
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="Breaker 6"
+                android:background="@color/primary_dark"
+                android:id="@+id/Breaker6"
+                android:layout_below="@+id/Breaker5"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="25dp"
+                 />
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="Test"
+                android:background="@color/primary_dark"
+                android:id="@+id/test_btn"
+                android:layout_below="@+id/Breaker6"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
