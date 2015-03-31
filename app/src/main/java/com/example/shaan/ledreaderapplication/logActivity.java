@@ -111,22 +111,24 @@ public class logActivity extends ActionBarActivity {
 
                 System.out.println(logText);
 
-                String attribute1 = BinarytoAscii.buildAttributes(1);
-                System.out.println(attribute1);
-                String attribute2 = BinarytoAscii.buildAttributes(2);
-                System.out.println(attribute2);
-                String attribute3 = BinarytoAscii.buildAttributes(3);
-                System.out.println(attribute3);
-                String attribute4 = BinarytoAscii.buildAttributes(4);
-                System.out.println(attribute4);
-                String attribute5 = BinarytoAscii.buildAttributes(5);
-                System.out.println(attribute5);
-                String attribute6 = BinarytoAscii.buildAttributes(6);
-                System.out.println(attribute6);
-                String attribute7 = BinarytoAscii.buildAttributes(7);
-                System.out.println(attribute7);
-                String attribute8 = BinarytoAscii.buildAttributes(8);
-                System.out.println(attribute8);
+                if (BinarytoAscii.checkValidString()){
+                    String attribute1 = BinarytoAscii.buildAttributes(1);
+                    System.out.println(attribute1);
+                    String attribute2 = BinarytoAscii.buildAttributes(2);
+                    System.out.println(attribute2);
+                    String attribute3 = BinarytoAscii.buildAttributes(3);
+                    System.out.println(attribute3);
+                    String attribute4 = BinarytoAscii.buildAttributes(4);
+                    System.out.println(attribute4);
+                    String attribute5 = BinarytoAscii.buildAttributes(5);
+                    System.out.println(attribute5);
+                    String attribute6 = BinarytoAscii.buildAttributes(6);
+                    System.out.println(attribute6);
+                    String attribute7 = BinarytoAscii.buildAttributes(7);
+                    System.out.println(attribute7);
+                    String attribute8 = BinarytoAscii.buildAttributes(8);
+                    System.out.println(attribute8);
+                }
             }
 
             logFile.close();
