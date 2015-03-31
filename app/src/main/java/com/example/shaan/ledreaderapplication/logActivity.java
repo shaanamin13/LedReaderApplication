@@ -94,7 +94,6 @@ public class logActivity extends ActionBarActivity {
     public void getLogFile() {
         TableLayout logTable = (TableLayout) findViewById(R.id.logtble);
 
-
         try {
             Scanner logFile = new Scanner(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/led/ledLogs.txt"));
 
@@ -104,8 +103,6 @@ public class logActivity extends ActionBarActivity {
                 TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT);
                 row.setLayoutParams(lp);
 
-
-
                 String logText = logFile.nextLine();
 
                 tv.setText(logText);
@@ -113,6 +110,23 @@ public class logActivity extends ActionBarActivity {
                 logTable.addView(row);
 
                 System.out.println(logText);
+
+                String attribute1 = BinarytoAscii.buildAttributes(1);
+                System.out.println(attribute1);
+                String attribute2 = BinarytoAscii.buildAttributes(2);
+                System.out.println(attribute2);
+                String attribute3 = BinarytoAscii.buildAttributes(3);
+                System.out.println(attribute3);
+                String attribute4 = BinarytoAscii.buildAttributes(4);
+                System.out.println(attribute4);
+                String attribute5 = BinarytoAscii.buildAttributes(5);
+                System.out.println(attribute5);
+                String attribute6 = BinarytoAscii.buildAttributes(6);
+                System.out.println(attribute6);
+                String attribute7 = BinarytoAscii.buildAttributes(7);
+                System.out.println(attribute7);
+                String attribute8 = BinarytoAscii.buildAttributes(8);
+                System.out.println(attribute8);
             }
 
             logFile.close();

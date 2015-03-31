@@ -3,8 +3,7 @@ package com.example.shaan.ledreaderapplication;
 public class BinarytoAscii {
 
     private static StringBuffer string = new StringBuffer();
-//
-//    private static String binaryOutput = "001001010100010101000111111100";
+    private static String[] stringAttributes =  new String[8];
 //
 //    public static void main(String[] args) {
 //
@@ -21,6 +20,8 @@ public class BinarytoAscii {
         boolean foundStart = false;
 
         boolean foundStop = false;
+
+        String totalStringOut = "";
 
         if (binaryOutput.charAt(start) == '1') {
 
@@ -114,106 +115,89 @@ public class BinarytoAscii {
 
         System.out.println("String:" + string);
 
-        binaryOutput = buildAttributes(); // find each attribute
+        totalStringOut = buildAttributes(0); // find each attribute
 
-        return binaryOutput;
+        return totalStringOut;
 
     } // end main
 
-    public static String buildAttributes() {
-        String total = "";
+    public static String buildAttributes(int i) {
         boolean startAttribute = false;
-
-        String attribute0 = "";
-
-        String attribute1 = "";
-
-        String attribute2 = "";
-
-        String attribute3 = "";
-
-        String attribute4 = "";
-
-        String attribute5 = "";
-
-        String attribute6 = "";
-
-        String attribute7 = "";
+        String total = "";
+        stringAttributes[0] = "";
+        stringAttributes[1] = "";
+        stringAttributes[2] = "";
+        stringAttributes[3] = "";
+        stringAttributes[4] = "";
+        stringAttributes[5] = "";
+        stringAttributes[6] = "";
+        stringAttributes[7] = "";
 
         if (string.charAt(0) == '*' && string.charAt(1) == '*') {
-
             startAttribute = true;
-
         } else {
-
             startAttribute = false;
-
         }
 
-// found startAttribute
-
+        // found startAttribute
         if (startAttribute) {
-
             int counter = 0;
 
             for (int j = 2; j < string.length(); j++) {
 
                 if (string.charAt(j) == '?') {
-
                     break;
-
                 }
 
                 if (string.charAt(j) == '*') {
-
                     counter++;
-
                 }
 
                 if (counter == 0 && string.charAt(j) != '*') {
-
-                    attribute0 = attribute0 + string.charAt(j);
-
+                    stringAttributes[0] = stringAttributes[0] + string.charAt(j);
                 } else if (counter == 1 && string.charAt(j) != '*') {
-
-                    attribute1 = attribute1 + string.charAt(j);
-
+                    stringAttributes[1] = stringAttributes[1] + string.charAt(j);
                 } else if (counter == 2 && string.charAt(j) != '*') {
-
-                    attribute2 = attribute2 + string.charAt(j);
-
+                    stringAttributes[2] = stringAttributes[2] + string.charAt(j);
                 } else if (counter == 3 && string.charAt(j) != '*') {
-
-                    attribute3 = attribute3 + string.charAt(j);
-
+                    stringAttributes[3] = stringAttributes[3] + string.charAt(j);
                 } else if (counter == 4 && string.charAt(j) != '*') {
-
-                    attribute4 = attribute4 + string.charAt(j);
-
+                    stringAttributes[4] = stringAttributes[4] + string.charAt(j);
                 } else if (counter == 5 && string.charAt(j) != '*') {
-
-                    attribute5 = attribute5 + string.charAt(j);
-
+                    stringAttributes[5] = stringAttributes[5] + string.charAt(j);
                 } else if (counter == 6 && string.charAt(j) != '*') {
-
-                    attribute6 = attribute6 + string.charAt(j);
-
+                    stringAttributes[6] = stringAttributes[6] + string.charAt(j);
                 } else if (counter == 7 && string.charAt(j) != '*') {
-
-                    attribute7 = attribute7 + string.charAt(j);
-
+                    stringAttributes[7] = stringAttributes[7] + string.charAt(j);
                 }
-
             }
-
         }
 
         string.delete(0,string.length()-1);
-        total = "" + attribute0 + attribute1 + attribute2 + attribute3 + attribute4 + attribute5 + attribute6 + attribute7;
-        return total;
+        total = "" + stringAttributes[0] + " " + stringAttributes[1] + " " + stringAttributes[2] + " " + stringAttributes[3] + " "
+                + stringAttributes[4] + " " + stringAttributes[5] + " " + stringAttributes[6] + " " + stringAttributes[7];
 
-
+        if (i == 0){
+            return total;
+        } else if (i == 1){
+            return stringAttributes[0];
+        } else if (i == 2){
+            return stringAttributes[1];
+        } else if (i == 3){
+            return stringAttributes[2];
+        } else if (i == 4){
+            return stringAttributes[3];
+        } else if (i == 5){
+            return stringAttributes[4];
+        } else if (i == 6){
+            return stringAttributes[5];
+        } else if (i == 7){
+            return stringAttributes[6];
+        } else if (i == 8){
+            return stringAttributes[7];
+        } else {
+            return "Nothing requested...";
+        }
     } // end method
-
 }
 
