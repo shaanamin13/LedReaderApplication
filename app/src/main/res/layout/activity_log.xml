@@ -74,7 +74,7 @@
                              />
                         <TextView
 
-                            android:text="Breaker No."
+                            android:text="Error"
                             android:textSize="18sp"
 
                             android:layout_width="wrap_content" />
@@ -108,6 +108,13 @@
                             android:textSize="18sp"
 
                             android:layout_width="wrap_content" />
+                        <TextView
+
+                            android:text="attr8"
+                            android:textSize="18sp"
+
+                            android:layout_width="wrap_content" />
+
 
 
                     </TableRow>

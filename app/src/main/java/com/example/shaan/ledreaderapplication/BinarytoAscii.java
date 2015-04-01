@@ -4,20 +4,16 @@ public class BinarytoAscii {
 
     private static StringBuffer string = new StringBuffer();
     private static String[] stringAttributes =  {"","","","","","","",""};
-    private static int check = 0;
 
     public static String conversion(String binaryOutput) {
 
-        check = 0;
         int start = 0;
         int stop = binaryOutput.length() - 1;
         boolean foundStart = false;
         boolean foundStop = false;
 
         System.out.println("Initial String Value: " + string);
-        if(string.length()>0){
-            string.delete(0,string.length()-1);
-        }
+       string.setLength(0);
         System.out.println("After Delete String Value: " + string);
 
 
@@ -41,7 +37,6 @@ public class BinarytoAscii {
                 for (int k = 1; k < stop; k += 8) {
                     string.append((char) Integer.parseInt(
                             binaryOutput.substring(k, k + 8), 2));
-                    check = 1;
                 } // end for
 
             } else
@@ -82,7 +77,6 @@ public class BinarytoAscii {
                 for (int k = start + 2; k < stop; k += 8) {
                     string.append((char) Integer.parseInt(
                             binaryOutput.substring(k, k + 8), 2));
-                    check = 1;
                 } // end for
             } else
                 return "Try Again ...";
@@ -91,7 +85,7 @@ public class BinarytoAscii {
         System.out.println("String:" + string);
         String totalStringOut = buildAttributes(0); // find each attribute
 
-        return "!"+totalStringOut;
+        return totalStringOut;
 
     } // end main
 
@@ -185,16 +179,6 @@ public class BinarytoAscii {
         } else {
             return "Nothing requested...";
         }
-    } // end method
-
-    public static boolean checkValidString(){
-        boolean valid = false;
-        if (check == 1){
-            System.out.println("Check: "+check);
-            valid = true;
-        }
-        check = 0;
-        return valid;
     } // end method
 
 } // end class

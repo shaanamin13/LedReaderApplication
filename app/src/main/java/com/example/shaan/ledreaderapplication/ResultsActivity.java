@@ -39,6 +39,7 @@ public class ResultsActivity extends ActionBarActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_results);
 
+
         Button button1 = (Button) findViewById(R.id.get_logs_btn);
         final Button button2 = (Button) findViewById(R.id.gen_results_btn);
         Button button3 = (Button) findViewById(R.id.go_home_btn);
@@ -259,6 +260,7 @@ public class ResultsActivity extends ActionBarActivity {
     }
 
    private void updateTable(final String binary){
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -267,6 +269,7 @@ public class ResultsActivity extends ActionBarActivity {
 
                 final TextView testStr = (TextView) findViewById(R.id.test_str);
                 testStr.setText(BinarytoAscii.conversion(binary));
+
 
 
             }
