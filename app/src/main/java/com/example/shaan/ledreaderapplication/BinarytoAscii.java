@@ -15,9 +15,7 @@ public class BinarytoAscii {
         boolean foundStop = false;
 
         System.out.println("Initial String Value: " + string);
-        if(string.length()>0){
-            string.setLength(0);
-        }
+        string.setLength(0);
         System.out.println("After Delete String Value: " + string);
 
 
