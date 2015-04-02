@@ -13,36 +13,36 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/icons"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/icons"
+        android:orientation="vertical">
 
         <Button
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
+            android:id="@+id/email_btn"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Send Logs to Email"
-            android:id="@+id/email_btn"
             android:layout_gravity="center_horizontal"
-            android:background="@color/primary_dark" />
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="25dp"
+            android:background="@color/primary_dark"
+            android:text="Send Logs to Email" />
 
         <ScrollView
+            android:id="@+id/scrollView3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/scrollView3" >
+            android:layout_height="wrap_content">
 
             <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/horizontalScrollView" >
+                android:layout_height="wrap_content">
 
                 <TableLayout
+                    android:id="@+id/logtble"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/logtble">
+                    android:layout_height="wrap_content">
 
                     <TableRow
                         android:layout_width="wrap_content"
@@ -58,63 +58,94 @@
 
 
                     </TableRow>
+
                     <TableRow
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="20dip"
                         android:outlineProvider="paddedBounds"
-                        android:showDividers="beginning|middle|end">
+
+                        android:showDividers="beginning|middle|end"
+                        android:background="@color/primary_light">
 
                         <TextView
-
-                            android:text="Timestamp"
-                            android:textSize="18sp"
 
                             android:layout_width="wrap_content"
-                             />
+                            android:text="Timestamp"
+
+
+                            android:textSize="18sp" />
+
                         <TextView
 
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:text="Error"
-                            android:textSize="18sp"
 
-                            android:layout_width="wrap_content" />
+                            android:textSize="18sp" />
                         <TextView
 
-                            android:text="attr3"
-                            android:textSize="18sp"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="Breaker"
 
-                            android:layout_width="wrap_content" />
+                            android:textSize="18sp" />
+
                         <TextView
 
-                            android:text="attr4"
-                            android:textSize="18sp"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="ipeak"
 
-                            android:layout_width="wrap_content" />
+                            android:textSize="18sp" />
+
                         <TextView
 
-                            android:text="attr5"
-                            android:textSize="18sp"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="irms"
 
-                            android:layout_width="wrap_content" />
+                            android:textSize="18sp" />
+
                         <TextView
 
-                            android:text="attr6"
-                            android:textSize="18sp"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="grms"
 
-                            android:layout_width="wrap_content" />
+                            android:textSize="18sp"
+                             />
+
                         <TextView
 
-                            android:text="attr7"
-                            android:textSize="18sp"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="surge"
 
-                            android:layout_width="wrap_content" />
+                            android:textSize="18sp" />
+
                         <TextView
 
-                            android:text="attr8"
-                            android:textSize="18sp"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="state"
 
-                            android:layout_width="wrap_content" />
+                            android:textSize="18sp" />
 
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="device"
+
+                            android:textSize="18sp" />
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="profile"
+
+                            android:textSize="18sp" />
 
 
                     </TableRow>

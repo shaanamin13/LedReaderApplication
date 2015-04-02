@@ -3,7 +3,7 @@ package com.example.shaan.ledreaderapplication;
 public class BinarytoAscii {
 
     private static StringBuffer string = new StringBuffer();
-    private static String[] stringAttributes =  {"","","","","","","",""};
+    private static String[] stringAttributes = {"", "", "", "", "", "", "", ""};
 
     public static String conversion(String binaryOutput) {
 
@@ -12,10 +12,9 @@ public class BinarytoAscii {
         boolean foundStart = false;
         boolean foundStop = false;
 
-        System.out.println("Initial String Value: " + string);
-       string.setLength(0);
-        System.out.println("After Delete String Value: " + string);
-
+        System.out.println("Before: "+string);
+        string.setLength(0);
+        System.out.println("After: "+string);
 
         if (binaryOutput.charAt(start) == '1') {
 
@@ -50,7 +49,7 @@ public class BinarytoAscii {
                 else {
                     start++;
                     foundStart = false;
-                    if (binaryOutput.length() == start+1){
+                    if (binaryOutput.length() == start + 1) {
                         return "No start bit was found";
                     }
                 }
@@ -61,11 +60,10 @@ public class BinarytoAscii {
                 if (binaryOutput.charAt(stop) == '1')
                     foundStop = true;
                 else {
-                    if(stop != start) {
+                    if (stop != start) {
                         stop--;
                         foundStop = false;
-                    }
-                    else{
+                    } else {
                         return "Stop bit was not found";
                     }
                 }
@@ -101,14 +99,14 @@ public class BinarytoAscii {
         stringAttributes[6] = "";
         stringAttributes[7] = "";
 
-        System.out.println("i: "+i);
+        System.out.println("i: " + i);
 
         if (string.charAt(0) == '*' && string.charAt(1) == '*') {
             startAttribute = true;
         } else {
             startAttribute = false;
         }
-        System.out.println("startAttribute: "+startAttribute);
+        System.out.println("startAttribute: " + startAttribute);
         // found startAttribute
         if (startAttribute) {
             int counter = 0;
@@ -116,16 +114,16 @@ public class BinarytoAscii {
             for (int j = 2; j < string.length(); j++) {
 
                 if (string.charAt(j) == '?') {
-                    System.out.println("?j: "+string.charAt(j));
+                    System.out.println("?j: " + string.charAt(j));
                     break;
                 }
 
                 if (string.charAt(j) == '*') {
-                    System.out.println("*j: "+string.charAt(j));
+                    System.out.println("*j: " + string.charAt(j));
                     counter++;
                 }
 
-                if (counter == 0 && string.charAt(j) != '*'){
+                if (counter == 0 && string.charAt(j) != '*') {
                     stringAttributes[0] = stringAttributes[0] + string.charAt(j);
                 } else if (counter == 1 && string.charAt(j) != '*') {
                     stringAttributes[1] = stringAttributes[1] + string.charAt(j);
@@ -148,32 +146,32 @@ public class BinarytoAscii {
         String total = "" + stringAttributes[0] + " " + stringAttributes[1] + " " + stringAttributes[2] + " " + stringAttributes[3] + " "
                 + stringAttributes[4] + " " + stringAttributes[5] + " " + stringAttributes[6] + " " + stringAttributes[7];
 
-        System.out.println("Attributes: "+total);
+        System.out.println("Attributes: " + total);
 
-        if (i == 0){
+        if (i == 0) {
             return total;
-        } else if (i == 1){
+        } else if (i == 1) {
             String attribute1 = stringAttributes[0];
             return attribute1;
-        } else if (i == 2){
+        } else if (i == 2) {
             String attribute2 = stringAttributes[1];
             return attribute2;
-        } else if (i == 3){
+        } else if (i == 3) {
             String attribute3 = stringAttributes[2];
             return attribute3;
-        } else if (i == 4){
+        } else if (i == 4) {
             String attribute4 = stringAttributes[3];
             return attribute4;
-        } else if (i == 5){
+        } else if (i == 5) {
             String attribute5 = stringAttributes[4];
             return attribute5;
-        } else if (i == 6){
+        } else if (i == 6) {
             String attribute6 = stringAttributes[5];
             return attribute6;
-        } else if (i == 7){
+        } else if (i == 7) {
             String attribute7 = stringAttributes[6];
             return attribute7;
-        } else if (i == 8){
+        } else if (i == 8) {
             String attribute8 = stringAttributes[7];
             return attribute8;
         } else {

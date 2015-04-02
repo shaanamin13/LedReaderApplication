@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -41,8 +42,10 @@ public class ResultsActivity extends ActionBarActivity {
 
 
         Button button1 = (Button) findViewById(R.id.get_logs_btn);
-        final Button button2 = (Button) findViewById(R.id.gen_results_btn);
         Button button3 = (Button) findViewById(R.id.go_home_btn);
+
+
+
 
         button1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -50,13 +53,11 @@ public class ResultsActivity extends ActionBarActivity {
                 goToLogs();
             }
         });
-        button2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
 
-              launchRingDialog();
-              button2.setVisibility(View.GONE);
-            }
-        });
+
+
+
+
         button3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -64,7 +65,15 @@ public class ResultsActivity extends ActionBarActivity {
             }
         });
 
+        new CountDownTimer(2000, 1000) {
+            public void onFinish() {
+                launchRingDialog();
+            }
 
+            public void onTick(long millisUntilFinished) {
+                // millisUntilFinished    The amount of time until finished.
+            }
+        }.start();
     }
 
     public void launchRingDialog() {
@@ -194,6 +203,7 @@ public class ResultsActivity extends ActionBarActivity {
 
 
             double threshold = calculateAverage(RGBFrameAvgs);
+            System.out.println("Threshold: " + threshold);
             binaryOutput = findBinary(RGBFrameAvgs, threshold);
             System.out.println("Actual Binary: " + binaryOutput);
 

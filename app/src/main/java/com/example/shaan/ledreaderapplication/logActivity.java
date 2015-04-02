@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -79,7 +81,7 @@ public class logActivity extends ActionBarActivity {
         i.putExtra(Intent.EXTRA_SUBJECT, "Circuit Breaker Status Log");
         i.putExtra(Intent.EXTRA_TEXT, "Attached is the text file for the circuit breaker status log. \n Sent via Android Smartphone.");
 
-        i.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileName));
+        i.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + fileName));
 
         try {
             startActivity(Intent.createChooser(i, "Send mail..."));
@@ -108,23 +110,29 @@ public class logActivity extends ActionBarActivity {
                 TextView tv5 = new TextView(this);
                 TextView tv6 = new TextView(this);
                 TextView tv7 = new TextView(this);
+                TextView tv8 = new TextView(this);
+                TextView tv9 = new TextView(this);
 
 
-                TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT);
+                TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(25,0,0,0);
                 row.setLayoutParams(lp);
 
 
                 String logText = logFile.nextLine();
                 String[] split = logText.split("\\s+");
-                if(split.length > 1) {
+                if (split.length > 1) {
                     if (!split[1].matches("\\d+")) {
                         String errorStr = "";
                         tv0.setText(split[0]);
                         row.addView(tv0);
-                        for (int i = 1; i < split.length; i++){
+
+                        for (int i = 1; i < split.length; i++) {
                             errorStr = errorStr + " " + split[i];
                         }
                         tv1.setText(errorStr);
+
+
                         row.addView(tv1);
 
                     } else {
@@ -134,13 +142,17 @@ public class logActivity extends ActionBarActivity {
                                 tv0.setText(split[i]);
                                 row.addView(tv0);
                                 tv1.setText("-");
+
                                 row.addView(tv1);
+
 
                             } else if (i == 1) {
                                 tv2.setText(split[i]);
+                                tv2.setBackgroundColor(846033);
                                 row.addView(tv2);
                             } else if (i == 2) {
                                 tv3.setText(split[i]);
+                                                               
                                 row.addView(tv3);
                             } else if (i == 3) {
                                 tv4.setText(split[i]);
@@ -148,21 +160,24 @@ public class logActivity extends ActionBarActivity {
                             } else if (i == 4) {
                                 tv5.setText(split[i]);
                                 row.addView(tv5);
+
                             } else if (i == 5) {
                                 tv6.setText(split[i]);
                                 row.addView(tv6);
-                            } else if (i == 6) {
-                                tv7 .setText(split[i]);
+                                tv7.setText("-");
                                 row.addView(tv7);
+                                tv8.setText("1");
+                                row.addView(tv8);
+                                tv9.setText("0");
+                                row.addView(tv9);
                             }
 
                         }
                     }
-                }
-                else{
+                } else {
                     System.out.println("Error");
                 }
-                
+
                 logTable.addView(row);
                 System.out.println("Log Text: " + logText);
             }

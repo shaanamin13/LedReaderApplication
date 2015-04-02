@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Please place light source within square and press record"
+        android:text="Please wait for countdown and place light source within square. Press record when ready."
         android:id="@+id/textView2"
         android:background="@color/accent"
         android:alpha=".84"
