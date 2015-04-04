@@ -2,26 +2,20 @@ package com.example.shaan.ledreaderapplication;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.bytedeco.javacv.FrameGrabber;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 
 
@@ -81,7 +75,7 @@ public class logActivity extends ActionBarActivity {
         i.putExtra(Intent.EXTRA_SUBJECT, "Circuit Breaker Status Log");
         i.putExtra(Intent.EXTRA_TEXT, "Attached is the text file for the circuit breaker status log. \n Sent via Android Smartphone.");
 
-        i.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + fileName));
+        i.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileName));
 
         try {
             startActivity(Intent.createChooser(i, "Send mail..."));
