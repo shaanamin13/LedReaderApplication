@@ -8,7 +8,9 @@ import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
+import android.os.Handler;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -82,21 +84,30 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
             @Override
             public void onClick(View v) {
 
-                if (!recording) {
+
                     prepareRecorder();
                     recorder.start();
                     Toast.makeText(getApplicationContext(), "Recording Started", Toast.LENGTH_SHORT).show();
                     recording = true;
-//
-                }
-                else{
-                    recording=false;
-                    recorder.stop();
-                    recorder.reset();
-                    recorder.release();
-                    Toast.makeText(getApplicationContext(), "Recording Stopped", Toast.LENGTH_SHORT).show();
-                    viewResults();
-                }
+                    btnStop.setVisibility(View.INVISIBLE);
+
+                new CountDownTimer(5000, 1000) {
+                    public void onFinish() {
+                        recording=false;
+                        recorder.stop();
+                        recorder.reset();
+                        recorder.release();
+                        Toast.makeText(getApplicationContext(), "Recording Stopped", Toast.LENGTH_SHORT).show();
+                        viewResults();
+
+                    }
+
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+                }.start();
+
+
 
             }
         });
@@ -151,6 +162,7 @@ public class CameraCommActivity extends Activity implements SurfaceHolder.Callba
             camera = Camera.open();
             Camera.Parameters parameters = camera.getParameters();
             parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+
             camera.setDisplayOrientation(90);
 
 

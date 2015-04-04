@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -79,7 +81,7 @@ public class logActivity extends ActionBarActivity {
         i.putExtra(Intent.EXTRA_SUBJECT, "Circuit Breaker Status Log");
         i.putExtra(Intent.EXTRA_TEXT, "Attached is the text file for the circuit breaker status log. \n Sent via Android Smartphone.");
 
-        i.putExtra(Intent.EXTRA_STREAM, Uri.parse(fileName));
+        i.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + fileName));
 
         try {
             startActivity(Intent.createChooser(i, "Send mail..."));
@@ -100,36 +102,84 @@ public class logActivity extends ActionBarActivity {
 
             while (logFile.hasNext()) {
                 TableRow row = new TableRow(this);
-                TextView tv = new TextView(this);
-                TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT);
+                TextView tv0 = new TextView(this);
+                TextView tv1 = new TextView(this);
+                TextView tv2 = new TextView(this);
+                TextView tv3 = new TextView(this);
+                TextView tv4 = new TextView(this);
+                TextView tv5 = new TextView(this);
+                TextView tv6 = new TextView(this);
+                TextView tv7 = new TextView(this);
+                TextView tv8 = new TextView(this);
+                TextView tv9 = new TextView(this);
+
+
+                TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(25,0,0,0);
                 row.setLayoutParams(lp);
 
 
                 String logText = logFile.nextLine();
+                String[] split = logText.split("\\s+");
+                if (split.length > 1) {
+                    if (!split[1].matches("\\d+")) {
+                        String errorStr = "";
+                        tv0.setText(split[0]);
+                        row.addView(tv0);
 
-                tv.setText(logText);
-                row.addView(tv);
-                logTable.addView(row);
+                        for (int i = 1; i < split.length; i++) {
+                            errorStr = errorStr + " " + split[i];
+                        }
+                        tv1.setText(errorStr);
 
-                System.out.println("Log Text: "+logText);
-                if (BinarytoAscii.checkValidString()) {
-                    String attribute1 = BinarytoAscii.buildAttributes(1);
-                    System.out.println(attribute1);
-                    String attribute2 = BinarytoAscii.buildAttributes(2);
-                    System.out.println(attribute2);
-                    String attribute3 = BinarytoAscii.buildAttributes(3);
-                    System.out.println(attribute3);
-                    String attribute4 = BinarytoAscii.buildAttributes(4);
-                    System.out.println(attribute4);
-                    String attribute5 = BinarytoAscii.buildAttributes(5);
-                    System.out.println(attribute5);
-                    String attribute6 = BinarytoAscii.buildAttributes(6);
-                    System.out.println(attribute6);
-                    String attribute7 = BinarytoAscii.buildAttributes(7);
-                    System.out.println(attribute7);
-                    String attribute8 = BinarytoAscii.buildAttributes(8);
-                    System.out.println(attribute8);
+
+                        row.addView(tv1);
+
+                    } else {
+
+                        for (int i = 0; i < split.length; i++) {
+                            if (i == 0) {
+                                tv0.setText(split[i]);
+                                row.addView(tv0);
+                                tv1.setText("-");
+
+                                row.addView(tv1);
+
+
+                            } else if (i == 1) {
+                                tv2.setText(split[i]);
+                                tv2.setBackgroundColor(846033);
+                                row.addView(tv2);
+                            } else if (i == 2) {
+                                tv3.setText(split[i]);
+                                                               
+                                row.addView(tv3);
+                            } else if (i == 3) {
+                                tv4.setText(split[i]);
+                                row.addView(tv4);
+                            } else if (i == 4) {
+                                tv5.setText(split[i]);
+                                row.addView(tv5);
+
+                            } else if (i == 5) {
+                                tv6.setText(split[i]);
+                                row.addView(tv6);
+                                tv7.setText("-");
+                                row.addView(tv7);
+                                tv8.setText("1");
+                                row.addView(tv8);
+                                tv9.setText("0");
+                                row.addView(tv9);
+                            }
+
+                        }
+                    }
+                } else {
+                    System.out.println("Error");
                 }
+
+                logTable.addView(row);
+                System.out.println("Log Text: " + logText);
             }
 
             logFile.close();
